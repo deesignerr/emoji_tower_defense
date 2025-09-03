@@ -51,7 +51,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   double baseSpeed = 0.002;
   bool isGameOver = false;
 
-  final int maxEnemiesOnScreen = 10;
+  final int maxEnemiesOnScreen = 15;
   final int totalLanes = 10;
 
   Set<int> usedLanes = {};
@@ -249,13 +249,13 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
 List<String> decideSlotOutcome() {
   double roll = random.nextDouble();
   
-  if (roll < 0.01) {
+  if (roll < 0.005) {
     // 1% → jackpot 💰💰💰
     return ["💰", "💰", "💰"];
-  } else if (roll < 0.51) {
+  } else if (roll < 0.505) {
     // 49% → regular win 🪙🪙🪙, random 5-200, >100 rare
     return ["🪙", "🪙", "🪙"];
-  } else if (roll < 0.71) {
+  } else if (roll < 0.705) {
     // 20% → exactly 2 coins
     List<String> result = ["🪙", "🪙", "❌"];
     result.shuffle();
@@ -362,7 +362,7 @@ Positioned(
             TextSpan(
               children: [
                 TextSpan(
-                  text: "Reach 1000 coins, win a ",
+                  text: "Reach 1000 coins, ",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: brightCyan, // original color
@@ -373,7 +373,7 @@ Positioned(
                   ),
                 ),
                 TextSpan(
-                  text: "\$100 gift",
+                  text: "win a \$50 gift",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: sunnyYellow, // only this part in sunnyYellow
