@@ -34922,7 +34922,7 @@ f=h>>>8&255
 h&=255
 j=A.a5C(A.a7n(A.mQ(A.a([A.mQ(a4,A.cu(a4,a4,l,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(k,B.f,8),new A.c6(A.P(j,255,255,255),B.f,4)],o),a4,a4),"Reach 1000 coins, win a "),A.mQ(a4,A.cu(a4,a4,i,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(204,g,f,h),B.f,8),new A.c6(A.P(j,255,255,255),B.f,4)],o),a4,a4),"$100 gift")],t.nO),a4,a4),a4,B.eb))
 k=A.fL(a4,a4,6)
-e=A.ah6(a4,a4,new A.y(4278854976),a4,a4,a4,a4,a4,a4,a4,a4,a4,new A.ax(12,6,12,6),a4,a4,a4,a4,a4,a4)
+e=A.ah6(a4,a4,new A.y(4278854976),a4,a4,a4,a4,a4,a4,a4,a4,a4,new A.ax(12,4,12,4),a4,a4,a4,a4,a4,a4)
 d=t.nA
 c=a3.cx
 b=c.a
@@ -34931,7 +34931,7 @@ a0=b>>>8&255
 b&=255
 a1=a3.db
 a2=a1.a
-a2=A.a([n,A.qO(a4,new A.cz(new A.ax(m,0,m,0),A.AV(A.a([j,k,A.a7o(A.dk("Read more",A.cu(a4,a4,l,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,a4,a4,a4)),a3.gXZ(),e)],d),B.bv,B.fH,B.bC),a4),a4,a4,0,0,4,a4),A.qO(a4,new A.cz(new A.ax(m,0,m,0),A.AV(A.a([A.AV(A.a([A.a5Q(B.yG,c,28),A.fL(a4,a4,6),A.dk(""+a3.f,A.cu(a4,a4,c,a4,a4,a4,a4,a4,a4,a4,a4,28,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(s,a,a0,b),B.f,10)],o),a4,a4)),A.fL(a4,a4,12),new A.yE(A.a5Q(B.yH,a5,a4),a3.gIb(),"How to Play",a4)],d),B.bv,B.dC,B.bC),A.Kq(A.a([A.a5B(A.dk("\ud83e\ude99 "+a3.r,A.cu(a4,a4,i,a4,a4,a4,a4,a4,a4,a4,a4,28,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(204,g,f,h),B.f,12)],o),a4,a4)),B.hW),A.fL(a4,4,a4),A.a5B(A.dk("\ud83d\udd25 High Score: "+a3.w,A.cu(a4,a4,a1,a4,a4,a4,a4,a4,a4,a4,a4,16,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(204,a2>>>16&255,a2>>>8&255,a2&255),B.f,10)],o),a4,a4)),B.hW)],d),B.j1,B.bC)],d),B.eT,B.oA,B.bC),a4),a4,a4,0,0,50,a4)],d)
+a2=A.a([n,A.qO(a4,new A.cz(new A.ax(m,0,m,0),A.AV(A.a([j,k,A.a7o(A.dk("Read more",A.cu(a4,a4,l,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,a4,a4,a4)),a3.gXZ(),e)],d),B.bv,B.fH,B.bC),a4),a4,a4,0,0,4,a4),A.qO(a4,new A.cz(new A.ax(m,0,m,0),A.AV(A.a([A.AV(A.a([A.a5Q(B.yG,c,28),A.fL(a4,a4,6),A.dk(""+a3.f,A.cu(a4,a4,c,a4,a4,a4,a4,a4,a4,a4,a4,28,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(s,a,a0,b),B.f,10)],o),a4,a4)),A.fL(a4,a4,12),new A.yE(A.a5Q(B.yH,a5,a4),a3.gIb(),"How to Play",a4)],d),B.bv,B.dC,B.bC),A.Kq(A.a([A.a5B(A.dk("\ud83e\ude99 "+a3.r,A.cu(a4,a4,i,a4,a4,a4,a4,a4,a4,a4,a4,28,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(204,g,f,h),B.f,12)],o),a4,a4)),B.hW),A.fL(a4,4,a4),A.a5B(A.dk("\ud83d\udd25 High Score: "+a3.w,A.cu(a4,a4,a1,a4,a4,a4,a4,a4,a4,a4,a4,16,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(204,a2>>>16&255,a2>>>8&255,a2&255),B.f,10)],o),a4,a4)),B.hW)],d),B.j1,B.bC)],d),B.eT,B.oA,B.bC),a4),a4,a4,0,0,60,a4)],d)
 m=a3.e
 e=A.W(m).h("ad<1,fH>")
 B.b.I(a2,A.a_(new A.ad(m,new A.Zl(a3,a6,a7,a6*0.08),e),!0,e.h("ao.E")))
