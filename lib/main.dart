@@ -393,7 +393,7 @@ Positioned(
           onPressed: openWinners,
           style: TextButton.styleFrom(
             backgroundColor: Color(0xFF0A2540), // dark button background
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           ),
           child: Text(
             "Read more",
@@ -411,7 +411,7 @@ Positioned(
 
 // Top UI row 2: Health + info | Score + High Score
 Positioned(
-  top: 50, // keeps the row positioned from the top
+  top: 60, // keeps the row positioned from the top
   left: 0,
   right: 0,
   child: Padding(
