@@ -315,7 +315,7 @@ List<String> decideSlotOutcome() {
   }
 
   void openWinners() async {
-    Uri url = Uri.parse("https://www.google.com");
+    Uri url = Uri.parse("https://towerdefence.dreamhosters.com/gift-card/");
     if (!await launchUrl(url)) throw "Could not launch $url";
   }
 
