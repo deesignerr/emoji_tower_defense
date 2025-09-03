@@ -518,13 +518,29 @@ Positioned(
                             color: sunnyYellow,
                             shadows: [Shadow(color: sunnyYellow.withOpacity(0.9), blurRadius: 15)])),
                     SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: slotResult
-                          .map((e) => Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(e, style: TextStyle(fontSize: slotFontSize))))
-                          .toList(),
+Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: slotResult
+      .map((e) {
+        Color glowColor;
+        if (e == "🪙") glowColor = sunnyYellow;
+        else if (e == "💰") glowColor = electricBlue;
+        else glowColor = vibrantPurple; // fallback for ❌ or others
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            e,
+            style: TextStyle(
+              fontSize: slotFontSize,
+              shadows: [
+                Shadow(color: glowColor.withOpacity(0.9), blurRadius: 15),
+                Shadow(color: glowColor.withOpacity(0.7), blurRadius: 30),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
                     ),
                     if (slotReward > 0) ...[
                       SizedBox(height: 20),
