@@ -34871,9 +34871,9 @@ rD(a,b,c,d){var s={}
 s.a=0
 A.a7u(A.c3(0,80,0),new A.Zy(s,this,a,c,b,d))},
 Ur(){var s,r,q=this.d,p=q.ns()
-if(p<0.01)return A.a(["\ud83d\udcb0","\ud83d\udcb0","\ud83d\udcb0"],t.s)
-else if(p<0.51)return A.a(["\ud83e\ude99","\ud83e\ude99","\ud83e\ude99"],t.s)
-else if(p<0.71){s=A.a(["\ud83e\ude99","\ud83e\ude99","\u274c"],t.s)
+if(p<0.005)return A.a(["\ud83d\udcb0","\ud83d\udcb0","\ud83d\udcb0"],t.s)
+else if(p<0.505)return A.a(["\ud83e\ude99","\ud83e\ude99","\ud83e\ude99"],t.s)
+else if(p<0.705){s=A.a(["\ud83e\ude99","\ud83e\ude99","\u274c"],t.s)
 B.b.yl(s)
 return s}else{r=t.s
 if(p<0.91){s=A.a(["\ud83d\udcb0","\ud83d\udcb0","\u274c"],r)
@@ -34920,7 +34920,7 @@ h=i.a
 g=h>>>16&255
 f=h>>>8&255
 h&=255
-j=A.a5C(A.a7n(A.mQ(A.a([A.mQ(a4,A.cu(a4,a4,l,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(k,B.f,8),new A.c6(A.P(j,255,255,255),B.f,4)],o),a4,a4),"Reach 1000 coins, win a "),A.mQ(a4,A.cu(a4,a4,i,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(204,g,f,h),B.f,8),new A.c6(A.P(j,255,255,255),B.f,4)],o),a4,a4),"$100 gift")],t.nO),a4,a4),a4,B.eb))
+j=A.a5C(A.a7n(A.mQ(A.a([A.mQ(a4,A.cu(a4,a4,l,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(k,B.f,8),new A.c6(A.P(j,255,255,255),B.f,4)],o),a4,a4),"Reach 1000 coins, "),A.mQ(a4,A.cu(a4,a4,i,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.c6(A.P(204,g,f,h),B.f,8),new A.c6(A.P(j,255,255,255),B.f,4)],o),a4,a4),"win a $50 gift")],t.nO),a4,a4),a4,B.eb))
 k=A.fL(a4,a4,6)
 e=A.ah6(a4,a4,new A.y(4278854976),a4,a4,a4,a4,a4,a4,a4,a4,a4,new A.ax(12,4,12,4),a4,a4,a4,a4,a4,a4)
 d=t.nA
@@ -34959,7 +34959,7 @@ $0(){var s,r,q,p,o,n
 for(s=this.a,r=s.e,q=r.length,p=0;p<q;++p){o=r[p]
 if(!o.f)o.b=o.b-o.c}if(!!r.fixed$length)A.a0(A.aI("removeWhere"))
 B.b.m9(r,new A.Zz(s),!0)
-if(r.length<10)if(s.d.ns()<0.04)s.Io()
+if(r.length<15)if(s.d.ns()<0.04)s.Io()
 r=s.r
 n=r<=900?0.002*Math.pow(1.05,B.h.bT(r,10)):0.002*Math.pow(1.05,90)*Math.pow(1.2,(r-900)/10)
 r=s.y
