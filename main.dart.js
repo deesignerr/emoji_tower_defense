@@ -34895,7 +34895,7 @@ s=A.qq(q,!0)
 s.qO(A.adp(null,B.u,!0,null,new A.Zu(this),q,null,r,B.uG,!0,t.z))},
 qy(){var s=0,r=A.T(t.H),q
 var $async$qy=A.U(function(a,b){if(a===1)return A.Q(b,r)
-while(true)switch(s){case 0:q=A.hJ("https://www.google.com",0,null)
+while(true)switch(s){case 0:q=A.hJ("https://towerdefence.dreamhosters.com/gift-card/",0,null)
 s=2
 return A.X(A.a3G(q),$async$qy)
 case 2:if(!b)throw A.e("Could not launch "+q.j(0))
