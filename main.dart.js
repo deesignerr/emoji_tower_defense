@@ -34817,7 +34817,7 @@ A.xX.prototype={
 O(a){return new A.q4(new A.ti(null),"Emoji Tower Defense",!1,null)}}
 A.ti.prototype={
 ap(){var s=t.s
-return new A.vh(B.iF,A.a([],t.sG),A.au(t.S),A.a(["\ud83d\udc7e","\ud83d\udc79","\ud83e\uddb9\u200d\u2642\ufe0f","\ud83d\udc7b","\ud83e\udddf\u200d\u2642\ufe0f"],s),A.a(["\u2753","\u2753","\u2753"],s),new A.y(4294913429),new A.y(4282090230),new A.y(4287323382),new A.y(4278630100),new A.y(4294688548),new A.y(4279310375),B.n)}}
+return new A.vh(B.iF,A.a([],t.sG),A.au(t.S),A.a(["\ud83d\udc7e","\ud83d\udc79","\ud83e\udd21","\ud83d\udc7b","\ud83e\udddf"],s),A.a(["\u2753","\u2753","\u2753"],s),new A.y(4294913429),new A.y(4282090230),new A.y(4287323382),new A.y(4278630100),new A.y(4294688548),new A.y(4279310375),B.n)}}
 A.vh.prototype={
 aY(){this.bf()
 this.ys()},
@@ -34919,7 +34919,7 @@ h=i.a
 g=h>>>16&255
 f=h>>>8&255
 h&=255
-j=A.a5C(A.a7n(A.mQ(A.a([A.mQ(a4,A.cu(a4,a4,l,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.ct(k,B.f,8),new A.ct(A.P(j,255,255,255),B.f,4)],o),a4,a4),"Reach 1000 coins to earn a "),A.mQ(a4,A.cu(a4,a4,i,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.ct(A.P(204,g,f,h),B.f,8),new A.ct(A.P(j,255,255,255),B.f,4)],o),a4,a4),"$100 gift card")],t.nO),a4,a4),a4,B.eb))
+j=A.a5C(A.a7n(A.mQ(A.a([A.mQ(a4,A.cu(a4,a4,l,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.ct(k,B.f,8),new A.ct(A.P(j,255,255,255),B.f,4)],o),a4,a4),"Reach 1000 coins, win a "),A.mQ(a4,A.cu(a4,a4,i,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,a4,B.a9,a4,a4,!0,a4,a4,a4,a4,a4,A.a([new A.ct(A.P(204,g,f,h),B.f,8),new A.ct(A.P(j,255,255,255),B.f,4)],o),a4,a4),"$100 gift")],t.nO),a4,a4),a4,B.eb))
 k=A.fL(a4,a4,6)
 e=A.ah6(a4,a4,new A.y(4278854976),a4,a4,a4,a4,a4,a4,a4,a4,a4,new A.ax(12,6,12,6),a4,a4,a4,a4,a4,a4)
 d=t.nA
