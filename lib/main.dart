@@ -307,7 +307,7 @@ List<String> decideSlotOutcome() {
         builder: (_) => AlertDialog(
               title: Text("How to Play"),
               content: Text(
-                  "Tap the enemies to destroy them.\nHearts increase health.\nCoins increase your score.\nBombs destroy multiple enemies.\nSlots can give bonus coins!"),
+                  "Tap the enemies to destroy them.\n ❤️ increase health.\n 🪙 Gives you extra coins.\n 💣 destroy everything on the screen.\n 🎰 Can give bonus coins.\n If you reach 1000 coins you win a \$100 gift card!"),
               actions: [
                 TextButton(onPressed: () => Navigator.pop(context), child: Text("Close"))
               ],
@@ -329,7 +329,7 @@ List<String> decideSlotOutcome() {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    double towerSize = screenHeight * 0.12; 
+    double towerSize = screenHeight * 0.10; 
     double enemySize = screenWidth * 0.08; 
     double slotFontSize = screenWidth * 0.12; 
 
