@@ -21,7 +21,8 @@ jobs:
         run: flutter pub get
 
       - name: Build web
-        run: flutter build web --release
+        # ✅ Added --base-href so paths work for GitHub Pages
+        run: flutter build web --release --base-href /emoji_tower_defense/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
