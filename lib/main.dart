@@ -55,7 +55,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   final int totalLanes = 10;
 
   Set<int> usedLanes = {};
-  List<String> enemyEmojis = ['👾', '👹', '🦹‍♂️', '👻', '🧟‍♂️'];
+  List<String> enemyEmojis = ['👾', '👹', '🤡', '👻', '🧟'];
 
   // Slot machine state
   bool isSlotMachineActive = false;
@@ -362,7 +362,7 @@ Positioned(
             TextSpan(
               children: [
                 TextSpan(
-                  text: "Reach 1000 coins to earn a ",
+                  text: "Reach 1000 coins, win a ",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: brightCyan, // original color
@@ -373,7 +373,7 @@ Positioned(
                   ),
                 ),
                 TextSpan(
-                  text: "\$100 gift card",
+                  text: "\$100 gift",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: sunnyYellow, // only this part in sunnyYellow
