@@ -34901,7 +34901,7 @@ return A.X(A.a3G(q),$async$qy)
 case 2:if(!b)throw A.e("Could not launch "+q.j(0))
 return A.R(null,r)}})
 return A.S($async$qy,r)},
-O(a9){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3=this,a4=null,a5=t.w,a6=A.cI(a9,a4,a5).w.a.a,a7=A.cI(a9,a4,a5).w.a.b,a8=a7*0.12
+O(a9){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3=this,a4=null,a5=t.w,a6=A.cI(a9,a4,a5).w.a.a,a7=A.cI(a9,a4,a5).w.a.b,a8=a7*0.1
 a5=a3.cy
 s=B.c.bs(178.5)
 r=a5.a
@@ -35057,7 +35057,7 @@ $0(){return this.a.ay=!1},
 $S:0}
 A.Zu.prototype={
 $1(a){var s=null
-return new A.ln(A.dk("How to Play",s),A.dk("Tap the enemies to destroy them.\nHearts increase health.\nCoins increase your score.\nBombs destroy multiple enemies.\nSlots can give bonus coins!",s),A.a([A.a7o(A.dk("Close",s),new A.Zt(this.a),s)],t.nA),s)},
+return new A.ln(A.dk("How to Play",s),A.dk("Tap the enemies to destroy them.\n \u2764\ufe0f increase health.\n \ud83e\ude99 Gives you extra coins.\n \ud83d\udca3 destroy everything on the screen.\n \ud83c\udfb0 Can give bonus coins.\n If you reach 1000 coins you win a $100 gift card!",s),A.a([A.a7o(A.dk("Close",s),new A.Zt(this.a),s)],t.nA),s)},
 $S:125}
 A.Zt.prototype={
 $0(){var s=this.a.c
