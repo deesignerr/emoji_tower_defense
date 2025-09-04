@@ -86,7 +86,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   void startGame() {
     enemies.clear();
     health = 5;
-    score = 0;
+    score = 999;
     isGameOver = false;
     baseSpeed = 0.002;
     usedLanes.clear();
@@ -747,20 +747,54 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
                   color: Colors.black87.withOpacity(0.8),
                   child: Center(
                     child: Container(
-                      width: 600,
-                      height: 600,
+                      width: min(screenWidth * 0.9, 600),
+                      padding: EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: sunnyYellow.withOpacity(0.6),
+                            blurRadius: 30,
+                            spreadRadius: 6,
+                          ),
+                        ],
                       ),
-                      child: HtmlElementView(viewType: 'winner-iframe'),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Congratulations, you won! 🎉',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: min(baseSize * 0.07, 50),
+                              fontWeight: FontWeight.bold,
+                              color: sunnyYellow,
+                              shadows: [
+                                Shadow(
+                                  color: sunnyYellow.withOpacity(0.9),
+                                  blurRadius: 15,
+                                ),
+                                Shadow(
+                                  color: Colors.white.withOpacity(0.3),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: HtmlElementView(viewType: 'winner-iframe'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-        ],
-      ),
-    );
   }
 }
