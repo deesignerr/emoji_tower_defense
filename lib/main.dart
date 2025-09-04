@@ -209,81 +209,89 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
 
   // ------------------- Slot Machine Logic -------------------
   void triggerSlotMachine() {
+  setState(() {
+    isSlotMachineActive = true;
+    slotResult = ["❓", "❓", "❓"]; // initial placeholders
+    slotReward = 0;
+  });
+
+  List<String> finalResult = decideSlotOutcome();
+
+  // Extra delay if first two are coins, bags, or bills (visual effect)
+  bool extraDelay = (finalResult[0] == "🪙" && finalResult[1] == "🪙") ||
+      (finalResult[0] == "💰" && finalResult[1] == "💰") ||
+      (finalResult[0] == "💵" && finalResult[1] == "💵");
+
+  spinReel(0, finalResult[0], 0, then: () {
+    spinReel(1, finalResult[1], 400, then: () {
+      spinReel(2, finalResult[2], extraDelay ? 1000 : 700, then: () {
+        finishSlotMachine(finalResult);
+      });
+    });
+  });
+}
+
+void spinReel(int index, String finalEmoji, int extraDurationMs, {VoidCallback? then}) {
+  int tick = 0;
+  Timer.periodic(Duration(milliseconds: 80), (timer) {
+    tick++;
     setState(() {
-      isSlotMachineActive = true;
-      slotResult = ["❓", "❓", "❓"];
-      slotReward = 0;
+      slotResult[index] = randomChoice(["🪙", "💰", "💵"]);
     });
 
-    List<String> finalResult = decideSlotOutcome();
+    if (tick >= 12 + extraDurationMs ~/ 80) {
+      setState(() => slotResult[index] = finalEmoji);
+      timer.cancel();
+      if (then != null) then();
+    }
+  });
+}
 
-    // Extra delay if first two are coins or bags
-    bool extraDelay = (finalResult[0] == "🪙" && finalResult[1] == "🪙") ||
-        (finalResult[0] == "💰" && finalResult[1] == "💰");
-
-    spinReel(0, finalResult[0], 0, then: () {
-      spinReel(1, finalResult[1], 400, then: () {
-        spinReel(2, finalResult[2], extraDelay ? 1000 : 700, then: () {
-          finishSlotMachine(finalResult);
-        });
-      });
-    });
-  }
-
-  void spinReel(int index, String finalEmoji, int extraDurationMs, {VoidCallback? then}) {
-    int tick = 0;
-    Timer.periodic(Duration(milliseconds: 80), (timer) {
-      tick++;
-      setState(() {
-        slotResult[index] = randomChoice(["🪙", "❌", "💰"]);
-      });
-
-      if (tick >= 12 + extraDurationMs ~/ 80) {
-        setState(() => slotResult[index] = finalEmoji);
-        timer.cancel();
-        if (then != null) then();
-      }
-    });
-  }
 
   String randomChoice(List<String> options) => options[random.nextInt(options.length)];
 
 List<String> decideSlotOutcome() {
   double roll = random.nextDouble();
-  
-  if (roll < 0.005) {
+
+  if (roll < 0.01) {
     // 1% → jackpot 💰💰💰
     return ["💰", "💰", "💰"];
-  } else if (roll < 0.505) {
-    // 49% → regular win 🪙🪙🪙, random 5-200, >100 rare
+  } else if (roll < 0.50) {
+    // 49% → three coins 🪙🪙🪙
     return ["🪙", "🪙", "🪙"];
-  } else if (roll < 0.705) {
-    // 20% → exactly 2 coins
-    List<String> result = ["🪙", "🪙", "❌"];
-    result.shuffle();
-    return result;
-  } else if (roll < 0.91) {
-    // 20% → exactly 2 money bags 💰
-    List<String> result = ["💰", "💰", "❌"];
+  } else if (roll < 0.60) {
+    // 10% → three bills 💵💵💵
+    return ["💵", "💵", "💵"];
+  } else if (roll < 0.80) {
+    // 20% → exactly two of any symbol, last one random → no win
+    // Choose symbol for two slots
+    String sym = randomChoice(["💰", "🪙", "💵"]);
+    List<String> result = [sym, sym, randomChoice(["💰", "🪙", "💵"])];
     result.shuffle();
     return result;
   } else {
-    // 8% → 🪙 or 💰 and random last one
-    String first = randomChoice(["🪙", "💰"]);
-    String second = randomChoice(["🪙", "💰", "❌"]);
-    String third = randomChoice(["🪙", "💰", "❌"]);
-    return [first, second, third];
+    // 20% → random mix → no win
+    List<String> result = [
+      randomChoice(["💰", "🪙", "💵"]),
+      randomChoice(["💰", "🪙", "💵"]),
+      randomChoice(["💰", "🪙", "💵"]),
+    ];
+    return result;
   }
-  }
+}
 
 void finishSlotMachine(List<String> result) {
   int reward = 0;
 
-  if (result.every((s) => s == "💰")) reward = 500;
-  else if (result.every((s) => s == "🪙")) {
-    reward = random.nextDouble() < 0.1
-        ? 101 + random.nextInt(99)
-        : 5 + random.nextInt(95);
+  if (result.every((s) => s == "💰")) {
+    // Jackpot
+    reward = 250 + random.nextInt(251); // 250–500
+  } else if (result.every((s) => s == "🪙")) {
+    reward = 5 + random.nextInt(96); // 5–100
+  } else if (result.every((s) => s == "💵")) {
+    reward = 120 + random.nextInt(81); // 120–200
+  } else {
+    reward = 0; // any other combination → no win
   }
 
   if (score >= 500 && reward > 200) reward = 200;
@@ -510,21 +518,26 @@ Widget build(BuildContext context) {
             size *= 1.2;
           }
 
-          return Positioned(
-            left: x,
-            top: y,
-            child: GestureDetector(
-              onTap: () => shootEnemy(enemy),
-              child: Text(
-                enemy.emoji,
-                style: TextStyle(
-                  fontSize: size,
-                  color: neonColor,
-                  shadows: [Shadow(color: neonColor.withOpacity(0.9), blurRadius: 15)],
-                ),
-              ),
-            ),
-          );
+return Positioned(
+  left: x,
+  top: y,
+  child: GestureDetector(
+    onTap: () => shootEnemy(enemy),
+    child: Container(
+      padding: EdgeInsets.all(20), // <-- increases tap area
+      color: Colors.transparent,    // <-- keeps it invisible
+      child: Text(
+        enemy.emoji,
+        style: TextStyle(
+          fontSize: size,
+          color: neonColor,
+          shadows: [Shadow(color: neonColor.withOpacity(0.9), blurRadius: 15)],
+        ),
+      ),
+    ),
+  ),
+);
+
         }).toList(),
 
         // Slot Machine Overlay
