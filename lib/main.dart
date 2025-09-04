@@ -86,7 +86,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   void startGame() {
     enemies.clear();
     health = 5;
-    score = 999;
+    score = 0;
     isGameOver = false;
     baseSpeed = 0.002;
     usedLanes.clear();
