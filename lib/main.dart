@@ -556,14 +556,17 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
             ),
           ),
 
-          // ------------------- Enemies -------------------
-          ...enemies.map((enemy) {
-            double x = screenWidth * enemy.position;
-            double playAreaTop = screenHeight * 0.15;
-            double playAreaBottom = screenHeight * 0.1;
-            double laneHeight = (screenHeight - playAreaTop - playAreaBottom) / totalLanes;
-            double y = playAreaTop + enemy.lane * laneHeight;
-            y = y.clamp(playAreaTop, screenHeight - playAreaBottom - enemySize);
+// ------------------- Enemies -------------------
+double playAreaTop = screenHeight * 0.15;
+double playAreaBottom = screenHeight * 0.15;
+double laneHeight = (screenHeight - playAreaTop - playAreaBottom) / totalLanes;
+
+...enemies.map((enemy) {
+  double x = screenWidth * enemy.position;
+  double y = playAreaTop + enemy.lane * laneHeight;
+
+  // Clamp Y so enemies don't go below visible area
+  y = y.clamp(playAreaTop, screenHeight - playAreaBottom - enemySize) as double;
 
             Color neonColor = (enemy.type == EnemyType.heart)
                 ? neonPink
