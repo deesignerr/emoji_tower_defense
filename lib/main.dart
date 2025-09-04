@@ -464,7 +464,8 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
                     style: TextButton.styleFrom(
                       backgroundColor: Color(0xFF0A2540),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      minimumSize: Size(0, 0),
                     ),
                     child: Text(
                       "Read more",
