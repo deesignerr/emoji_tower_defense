@@ -558,8 +558,8 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
           // ------------------- Enemies -------------------
           ...enemies.map((enemy) {
             double x = screenWidth * enemy.position;
-            const double playAreaTop = 140.0;
-            const double playAreaBottom = 80.0;
+            double playAreaTop = screenHeight * 0.15;
+            double playAreaBottom = screenHeight * 0.1;
             double laneHeight = (screenHeight - playAreaTop - playAreaBottom) / totalLanes;
             double y = playAreaTop + enemy.lane * laneHeight;
 
