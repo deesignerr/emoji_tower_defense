@@ -47,7 +47,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   final Random random = Random();
   List<Enemy> enemies = [];
   int health = 5;
-  int score = 999;
+  int score = 0;
   int topScore = 0;
   Timer? gameTimer;
   double baseSpeed = 0.002;
@@ -86,7 +86,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   void startGame() {
     enemies.clear();
     health = 5;
-    score = 0;
+    score = 999;
     isGameOver = false;
     baseSpeed = 0.002;
     usedLanes.clear();
