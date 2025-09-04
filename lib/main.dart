@@ -558,42 +558,44 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
 
 // ------------------- Enemies -------------------
 ...enemies.map((enemy) {
-        ...enemies.map((enemy) {
-          double x = screenWidth * enemy.position;
-          const double playAreaTop = 140.0;
-          const double playAreaBottom = 140.0;
-          double laneHeight = (screenHeight - playAreaTop - playAreaBottom) / totalLanes;
-          double y = playAreaTop + enemy.lane * laneHeight;
+  double x = screenWidth * enemy.position;
+  const double playAreaTop = 140.0;
+  const double playAreaBottom = 140.0;
+  double laneHeight = (screenHeight - playAreaTop - playAreaBottom) / totalLanes;
+  double y = playAreaTop + enemy.lane * laneHeight;
 
-            Color neonColor = (enemy.type == EnemyType.heart)
-                ? neonPink
-                : getRandomNeonColor();
-            double size = (enemy.type == EnemyType.heart) ? enemySize * 1.2 : enemySize;
-            if (enemy.exploded) {
-              neonColor = Colors.deepOrangeAccent;
-              size *= 1.2;
-            }
+  // clamp so enemies don't go below visible area
+  y = y.clamp(playAreaTop, screenHeight - playAreaBottom - enemySize);
 
-            return Positioned(
-              left: x,
-              top: y,
-              child: GestureDetector(
-                onTap: () => shootEnemy(enemy),
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  color: Colors.transparent,
-                  child: Text(
-                    enemy.emoji,
-                    style: TextStyle(
-                      fontSize: size,
-                      color: neonColor,
-                      shadows: [Shadow(color: neonColor.withOpacity(0.9), blurRadius: 15)],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
+  Color neonColor = (enemy.type == EnemyType.heart)
+      ? neonPink
+      : getRandomNeonColor();
+  double size = (enemy.type == EnemyType.heart) ? enemySize * 1.2 : enemySize;
+  if (enemy.exploded) {
+    neonColor = Colors.deepOrangeAccent;
+    size *= 1.2;
+  }
+
+  return Positioned(
+    left: x,
+    top: y,
+    child: GestureDetector(
+      onTap: () => shootEnemy(enemy),
+      child: Container(
+        padding: EdgeInsets.all(20),
+        color: Colors.transparent,
+        child: Text(
+          enemy.emoji,
+          style: TextStyle(
+            fontSize: size,
+            color: neonColor,
+            shadows: [Shadow(color: neonColor.withOpacity(0.9), blurRadius: 15)],
+          ),
+        ),
+      ),
+    ),
+  );
+}).toList(),
 
           // ------------------- Slot Machine Overlay -------------------
           if (isSlotMachineActive)
