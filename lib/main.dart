@@ -562,6 +562,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
             double playAreaBottom = screenHeight * 0.1;
             double laneHeight = (screenHeight - playAreaTop - playAreaBottom) / totalLanes;
             double y = playAreaTop + enemy.lane * laneHeight;
+            y = y.clamp(playAreaTop, screenHeight - playAreaBottom - enemySize);
 
             Color neonColor = (enemy.type == EnemyType.heart)
                 ? neonPink
