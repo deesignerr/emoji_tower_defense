@@ -36786,7 +36786,7 @@ s=A.rq(q,!0)
 s.r2(A.ah3(null,B.v,!0,null,new A.a1O(this),q,null,r,B.uO,!0,t.z))},
 qN(){var s=0,r=A.a_(t.H),q
 var $async$qN=A.a0(function(a,b){if(a===1)return A.X(b,r)
-while(true)switch(s){case 0:q=A.ig("https://towerdefence.dreamhosters.com/gift-card/",0,null)
+while(true)switch(s){case 0:q=A.ig("http://coindefense.space/gift-card/",0,null)
 s=2
 return A.a3(A.a74(q),$async$qN)
 case 2:if(!b)throw A.c("Could not launch "+q.j(0))
