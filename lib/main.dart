@@ -61,6 +61,8 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   bool isSlotMachineActive = false;
   List<String> slotResult = ["❓", "❓", "❓"];
   int slotReward = 0;
+  bool slotClosable = false;
+  double slotOpacity = 1.0;
 
   // Neon colors
   final Color neonPink = Color(0xFFFF2D95);
@@ -274,23 +276,41 @@ List<String> decideSlotOutcome() {
   }
   }
 
-  void finishSlotMachine(List<String> result) {
-    int reward = 0;
-    if (result.every((s) => s == "💰")) reward = 500;
-    else if (result.every((s) => s == "🪙")) {
-      reward = random.nextDouble() < 0.1 ? 101 + random.nextInt(99) : 5 + random.nextInt(95);
-    }
+void finishSlotMachine(List<String> result) {
+  int reward = 0;
 
-    setState(() {
-      score += reward;
-      slotReward = reward;
-    });
-
-    Timer(Duration(seconds: 3), () {
-      setState(() => isSlotMachineActive = false);
-    });
+  if (result.every((s) => s == "💰")) reward = 500;
+  else if (result.every((s) => s == "🪙")) {
+    reward = random.nextDouble() < 0.1
+        ? 101 + random.nextInt(99)
+        : 5 + random.nextInt(95);
   }
 
+  if (score >= 500 && reward > 200) reward = 200;
+  
+  setState(() {
+    score += reward;
+    slotReward = reward;
+    slotClosable = true;  // allow click-outside after spin finishes
+    slotOpacity = 1.0;    // ensure fully visible
+  });
+
+  // Auto-close after 3 seconds with fade-out
+  Timer(Duration(seconds: 3), () {
+    if (mounted) {
+      setState(() => slotOpacity = 0.0);
+      Future.delayed(Duration(milliseconds: 300), () {
+        if (mounted) {
+          setState(() {
+            isSlotMachineActive = false;
+            slotClosable = false;
+            slotOpacity = 1.0; // reset for next time
+          });
+        }
+      });
+    }
+  });
+}
   // ------------------- Game Over -------------------
   void gameOver() {
     gameTimer?.cancel();
@@ -325,274 +345,349 @@ List<String> decideSlotOutcome() {
   }
 
   @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+Widget build(BuildContext context) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
+  double baseSize = min(screenWidth, screenHeight);
 
-    double towerSize = screenHeight * 0.10; 
-    double enemySize = screenWidth * 0.08; 
-    double slotFontSize = screenWidth * 0.12; 
+  double towerSize = baseSize * 0.18;
+  double enemySize = baseSize * 0.10;
+  double slotFontSize = min(baseSize * 0.12, 80);
 
-    return Scaffold(
-      backgroundColor: darkBackground,
-      body: Stack(
-        children: [
-          // Tower
-          Positioned(
-            left: 20,
-            top: screenHeight * 0.5 - towerSize / 2,
-            child: Text(
-              '🏰',
-              style: TextStyle(fontSize: towerSize, shadows: [Shadow(color: electricBlue.withOpacity(0.7), blurRadius: 15)]),
-            ),
-          ),
-
-// Top UI row 1: Goal + Winners
-Positioned(
-  top: 4,
-  left: 0,
-  right: 0,
-  child: Padding(
-    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  return Scaffold(
+    backgroundColor: darkBackground,
+    body: Stack(
       children: [
-        Flexible(
-          child: Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: "Reach 1000 coins, ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: brightCyan, // original color
-                    shadows: [
-                      Shadow(color: brightCyan.withOpacity(0.8), blurRadius: 8),
-                      Shadow(color: Colors.white.withOpacity(0.3), blurRadius: 4),
-                    ],
-                  ),
-                ),
-                TextSpan(
-                  text: "win a \$50 gift",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: sunnyYellow, // only this part in sunnyYellow
-                    shadows: [
-                      Shadow(color: sunnyYellow.withOpacity(0.8), blurRadius: 8),
-                      Shadow(color: Colors.white.withOpacity(0.3), blurRadius: 4),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        SizedBox(width: 6),
-        TextButton(
-          onPressed: openWinners,
-          style: TextButton.styleFrom(
-            backgroundColor: Color(0xFF0A2540), // dark button background
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          ),
+        // Tower
+        Positioned(
+          left: 20,
+          top: screenHeight * 0.5 - towerSize / 2,
           child: Text(
-            "Read more",
+            '🏰',
             style: TextStyle(
-              color: brightCyan,
-              fontWeight: FontWeight.bold,
-            ),
+                fontSize: towerSize,
+                shadows: [Shadow(color: electricBlue.withOpacity(0.7), blurRadius: 15)]),
           ),
         ),
-      ],
-    ),
-  ),
-),
 
-
-// Top UI row 2: Health + info | Score + High Score
-Positioned(
-  top: 60, // keeps the row positioned from the top
-  left: 0,
-  right: 0,
-  child: Padding(
-    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start, // aligns health to top
-      children: [
-        Row(
-          children: [
-            Icon(Icons.favorite, color: neonPink, size: 28),
-            SizedBox(width: 6),
-            Text(
-              '$health',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: neonPink,
-                shadows: [Shadow(color: neonPink.withOpacity(0.7), blurRadius: 10)],
-              ),
-            ),
-            SizedBox(width: 12),
-            IconButton(
-              icon: Icon(Icons.info, color: electricBlue),
-              onPressed: showHowToPlay,
-              tooltip: "How to Play",
-            ),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                '🪙 $score',
-                style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: sunnyYellow,
-                    shadows: [Shadow(color: sunnyYellow.withOpacity(0.8), blurRadius: 12)]),
-              ),
-            ),
-            SizedBox(height: 4),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                '🔥 High Score: $topScore',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: vibrantPurple,
-                    shadows: [Shadow(color: vibrantPurple.withOpacity(0.8), blurRadius: 10)]),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  ),
-),
-
-
-          // Enemies
-          ...enemies.map((enemy) {
-            double x = screenWidth * enemy.position;
-            double laneHeight = (screenHeight - 200) / totalLanes;
-            double y = 100 + enemy.lane * laneHeight;
-            Color neonColor = (enemy.type == EnemyType.heart) ? neonPink : getRandomNeonColor();
-            double size = (enemy.type == EnemyType.heart) ? enemySize * 1.2 : enemySize;
-            if (enemy.exploded) {
-              neonColor = Colors.deepOrangeAccent;
-              size *= 1.2;
-            }
-            return Positioned(
-              left: x,
-              top: y,
-              child: GestureDetector(
-                onTap: () => shootEnemy(enemy),
-                child: Text(enemy.emoji,
-                    style: TextStyle(fontSize: size, color: neonColor, shadows: [Shadow(color: neonColor.withOpacity(0.9), blurRadius: 15)])),
-              ),
-            );
-          }).toList(),
-
-          // Slot Machine
-          if (isSlotMachineActive)
-            Center(
-              child: Container(
-                width: screenWidth * 0.8,
-                padding: EdgeInsets.all(screenWidth * 0.05),
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [BoxShadow(color: neonPink.withOpacity(0.7), blurRadius: 30, spreadRadius: 6)],
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('🎰 Win up to 500 coins',
-                        style: TextStyle(
-                            fontSize: screenWidth * 0.05,
+        // Top UI row 1: Goal + Winners
+        Positioned(
+          top: 4,
+          left: 0,
+          right: 0,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Reach 1000 coins, ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: brightCyan,
+                            shadows: [
+                              Shadow(color: brightCyan.withOpacity(0.8), blurRadius: 8),
+                              Shadow(color: Colors.white.withOpacity(0.3), blurRadius: 4),
+                            ],
+                          ),
+                        ),
+                        TextSpan(
+                          text: "win a \$50 gift",
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: sunnyYellow,
-                            shadows: [Shadow(color: sunnyYellow.withOpacity(0.9), blurRadius: 15)])),
-                    SizedBox(height: 20),
-Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: slotResult
-      .map((e) {
-        Color glowColor;
-        if (e == "🪙") glowColor = sunnyYellow;
-        else if (e == "💰") glowColor = electricBlue;
-        else glowColor = vibrantPurple; // fallback for ❌ or others
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(
-            e,
-            style: TextStyle(
-              fontSize: slotFontSize,
-              shadows: [
-                Shadow(color: glowColor.withOpacity(0.9), blurRadius: 15),
-                Shadow(color: glowColor.withOpacity(0.7), blurRadius: 30),
+                            shadows: [
+                              Shadow(color: sunnyYellow.withOpacity(0.8), blurRadius: 8),
+                              Shadow(color: Colors.white.withOpacity(0.3), blurRadius: 4),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(width: 6),
+                TextButton(
+                  onPressed: openWinners,
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color(0xFF0A2540),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  ),
+                  child: Text(
+                    "Read more",
+                    style: TextStyle(color: brightCyan, fontWeight: FontWeight.bold),
+                  ),
+                ),
               ],
             ),
           ),
-        );
-      }).toList(),
-                    ),
-                    if (slotReward > 0) ...[
-                      SizedBox(height: 20),
-                      Text('+ $slotReward coins!',
-                          style: TextStyle(
-                              fontSize: screenWidth * 0.06,
-                              fontWeight: FontWeight.bold,
-                              color: electricBlue,
-                              shadows: [Shadow(color: electricBlue.withOpacity(0.8), blurRadius: 12)])),
-                    ],
-                  ],
-                ),
-              ),
-            ),
+        ),
 
-          // Game Over
-          if (isGameOver)
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [BoxShadow(color: neonPink.withOpacity(0.6), blurRadius: 30, spreadRadius: 5)]),
-                padding: EdgeInsets.all(24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+        // Top UI row 2: Health + info | Score + High Score
+        Positioned(
+          top: 60,
+          left: 0,
+          right: 0,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Text('💥 Game Over!',
-                        style: TextStyle(
-                            fontSize: screenWidth * 0.07,
-                            fontWeight: FontWeight.bold,
-                            color: neonPink,
-                            shadows: [Shadow(color: neonPink.withOpacity(0.9), blurRadius: 12)])),
-                    SizedBox(height: 10),
-                    Text('Coins: $score', style: TextStyle(fontSize: screenWidth * 0.06, color: sunnyYellow, fontWeight: FontWeight.bold)),
-                    Text('High Score: $topScore',
-                        style: TextStyle(fontSize: screenWidth * 0.05, color: vibrantPurple, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: neonPink,
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-                      onPressed: restart,
-                      child: Text('Play Again', style: TextStyle(fontSize: screenWidth * 0.05, fontWeight: FontWeight.bold, color: Colors.white)),
+                    Icon(Icons.favorite, color: neonPink, size: 28),
+                    SizedBox(width: 6),
+                    Text(
+                      '$health',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: neonPink,
+                        shadows: [Shadow(color: neonPink.withOpacity(0.7), blurRadius: 10)],
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    IconButton(
+                      icon: Icon(Icons.info, color: electricBlue),
+                      onPressed: showHowToPlay,
+                      tooltip: "How to Play",
                     ),
                   ],
                 ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        '🪙 $score',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: sunnyYellow,
+                          shadows: [Shadow(color: sunnyYellow.withOpacity(0.8), blurRadius: 12)],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        '🔥 High Score: $topScore',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: vibrantPurple,
+                          shadows: [Shadow(color: vibrantPurple.withOpacity(0.8), blurRadius: 10)],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // Enemies
+        ...enemies.map((enemy) {
+          double x = screenWidth * enemy.position;
+          const double playAreaTop = 140.0;
+          const double playAreaBottom = 80.0;
+          double laneHeight = (screenHeight - playAreaTop - playAreaBottom) / totalLanes;
+          double y = playAreaTop + enemy.lane * laneHeight;
+
+          Color neonColor = (enemy.type == EnemyType.heart) ? neonPink : getRandomNeonColor();
+          double size = (enemy.type == EnemyType.heart) ? enemySize * 1.2 : enemySize;
+          if (enemy.exploded) {
+            neonColor = Colors.deepOrangeAccent;
+            size *= 1.2;
+          }
+
+          return Positioned(
+            left: x,
+            top: y,
+            child: GestureDetector(
+              onTap: () => shootEnemy(enemy),
+              child: Text(
+                enemy.emoji,
+                style: TextStyle(
+                  fontSize: size,
+                  color: neonColor,
+                  shadows: [Shadow(color: neonColor.withOpacity(0.9), blurRadius: 15)],
+                ),
               ),
             ),
-        ],
-      ),
-    );
-  }
+          );
+        }).toList(),
+
+        // Slot Machine Overlay
+        if (isSlotMachineActive)
+          Positioned.fill(
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: slotClosable
+                  ? () {
+                      setState(() => slotOpacity = 0.0);
+                      Future.delayed(Duration(milliseconds: 300), () {
+                        if (mounted) {
+                          setState(() {
+                            isSlotMachineActive = false;
+                            slotClosable = false;
+                            slotOpacity = 1.0;
+                          });
+                        }
+                      });
+                    }
+                  : null,
+              child: Center(
+                child: GestureDetector(
+                  onTap: () {}, // absorb taps inside the slot box
+                  child: AnimatedOpacity(
+                    opacity: slotOpacity,
+                    duration: Duration(milliseconds: 300),
+                    child: Container(
+                      width: min(screenWidth * 0.8, 500),
+                      padding: EdgeInsets.all(baseSize * 0.05),
+                      decoration: BoxDecoration(
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: neonPink.withOpacity(0.7),
+                            blurRadius: 30,
+                            spreadRadius: 6,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '🎰 Win up to 500 coins',
+                            style: TextStyle(
+                              fontSize: min(baseSize * 0.05, 40),
+                              fontWeight: FontWeight.bold,
+                              color: sunnyYellow,
+                              shadows: [Shadow(color: sunnyYellow.withOpacity(0.9), blurRadius: 15)],
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: slotResult.map((e) {
+                              Color glowColor;
+                              if (e == "🪙") glowColor = sunnyYellow;
+                              else if (e == "💰") glowColor = electricBlue;
+                              else glowColor = vibrantPurple;
+
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  e,
+                                  style: TextStyle(
+                                    fontSize: min(baseSize * 0.12, 80),
+                                    shadows: [
+                                      Shadow(color: glowColor.withOpacity(0.9), blurRadius: 15),
+                                      Shadow(color: glowColor.withOpacity(0.7), blurRadius: 30),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                          if (slotReward > 0) ...[
+                            SizedBox(height: 20),
+                            Text(
+                              '+ $slotReward coins!',
+                              style: TextStyle(
+                                fontSize: min(baseSize * 0.06, 50),
+                                fontWeight: FontWeight.bold,
+                                color: electricBlue,
+                                shadows: [Shadow(color: electricBlue.withOpacity(0.8), blurRadius: 12)],
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+        // Game Over Overlay
+        if (isGameOver)
+          Center(
+            child: Container(
+              width: min(screenWidth * 0.8, 500),
+              padding: EdgeInsets.all(baseSize * 0.05),
+              decoration: BoxDecoration(
+                color: Colors.black87,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(color: neonPink.withOpacity(0.6), blurRadius: 30, spreadRadius: 5)
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '💥 Game Over!',
+                    style: TextStyle(
+                      fontSize: min(baseSize * 0.07, 60),
+                      fontWeight: FontWeight.bold,
+                      color: neonPink,
+                      shadows: [Shadow(color: neonPink.withOpacity(0.9), blurRadius: 12)],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Coins: $score',
+                    style: TextStyle(
+                      fontSize: min(baseSize * 0.05, 40),
+                      color: sunnyYellow,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'High Score: $topScore',
+                    style: TextStyle(
+                      fontSize: min(baseSize * 0.05, 40),
+                      color: vibrantPurple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: neonPink,
+                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    ),
+                    onPressed: restart,
+                    child: Text(
+                      'Play Again',
+                      style: TextStyle(
+                        fontSize: min(baseSize * 0.05, 40),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
+    ),
+  );
+}
 }
