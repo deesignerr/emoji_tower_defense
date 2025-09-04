@@ -367,7 +367,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   }
 
   void openWinners() async {
-    Uri url = Uri.parse("https://towerdefence.dreamhosters.com/gift-card/");
+    Uri url = Uri.parse("http://coindefense.space/gift-card/");
     if (!await launchUrl(url)) throw "Could not launch $url";
   }
 
