@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:html' as html; // For iframe
-import 'dart:ui' as ui;     // For platformViewRegistry
+
+// Web-only imports (ok if you're building for web). Keep them if you run this in the browser.
+import 'dart:html' as html; // For iframe (web only)
+import 'dart:ui' as ui;     // For platformViewRegistry (web only)
 
 void main() => runApp(EmojiTowerDefense());
 
@@ -69,6 +72,9 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   // Winner popup state
   bool isWinnerPopupActive = false;
 
+  // make sure we only register the iframe view once
+  bool _iframeRegistered = false;
+
   // Neon colors
   final Color neonPink = Color(0xFFFF2D95);
   final Color electricBlue = Color(0xFF3B82F6);
@@ -80,13 +86,32 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
   @override
   void initState() {
     super.initState();
+    // register iframe view factory once (web only)
+    if (kIsWeb && !_iframeRegistered) {
+      try {
+        // ignore: undefined_prefixed_name
+        ui.platformViewRegistry.registerViewFactory(
+          'winner-iframe',
+          (int viewId) => html.IFrameElement()
+            ..src = 'https://coindefense.space/winner/'
+            ..style.border = '0'
+            ..style.width = '100%'
+            ..style.height = '100%',
+        );
+        _iframeRegistered = true;
+      } catch (e) {
+        // If already registered or not available, ignore the error.
+        // (This prevents duplicate-registration runtime errors.)
+      }
+    }
+
     startGame();
   }
 
   void startGame() {
     enemies.clear();
     health = 5;
-    score = 999;
+    score = 0; // set to 999 for quick testing if you want
     isGameOver = false;
     baseSpeed = 0.002;
     usedLanes.clear();
@@ -313,17 +338,8 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
 
   // ------------------- Winner Popup -------------------
   void showWinnerPopup() {
+    // Only toggle the popup here — iframe registration happens once in initState
     setState(() => isWinnerPopupActive = true);
-
-    // ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory(
-      'winner-iframe',
-      (int viewId) => html.IFrameElement()
-        ..src = 'https://coindefense.space/winner/'
-        ..style.border = '0'
-        ..style.width = '100%'
-        ..style.height = '100%',
-    );
   }
 
   // ------------------- Game Over -------------------
@@ -737,67 +753,105 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
               ),
             ),
 
-// ------------------- Winner Popup Overlay -------------------
-if (isWinnerPopupActive)
-  Positioned.fill(
-    child: GestureDetector(
-      onTap: () => setState(() => isWinnerPopupActive = false),
-      behavior: HitTestBehavior.translucent,
-      child: Container(
-        color: Colors.black87.withOpacity(0.8),
-        child: Center(
-          child: Container(
-            width: min(screenWidth * 0.9, 600),
-            height: min(screenHeight * 0.8, 600), // give fixed height
-            padding: EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.black87,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: sunnyYellow.withOpacity(0.6),
-                  blurRadius: 30,
-                  spreadRadius: 6,
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Congratulations, you won! 🎉',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: min(baseSize * 0.07, 50),
-                    fontWeight: FontWeight.bold,
-                    color: sunnyYellow,
-                    shadows: [
-                      Shadow(
-                        color: sunnyYellow.withOpacity(0.9),
-                        blurRadius: 15,
-                      ),
-                      Shadow(
-                        color: Colors.white.withOpacity(0.3),
-                        blurRadius: 6,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  height: 450, // fixed height for iframe
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: HtmlElementView(viewType: 'winner-iframe'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ),
-  ),
+          // ------------------- Winner Popup Overlay -------------------
+          if (isWinnerPopupActive)
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () => setState(() => isWinnerPopupActive = false),
+                behavior: HitTestBehavior.translucent,
+                child: Container(
+                  color: Colors.black87.withOpacity(0.8),
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {}, // absorb taps inside popup so outer tap closes only when outside
+                      child: Container(
+                        width: min(screenWidth * 0.9, 680),
+                        height: min(screenHeight * 0.85, 720),
+                        padding: EdgeInsets.all(min(baseSize * 0.04, 24)),
+                        decoration: BoxDecoration(
+                          color: Colors.black87,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: sunnyYellow.withOpacity(0.35),
+                              blurRadius: 40,
+                              spreadRadius: 8,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              '🎆 Congratulations, you won! 🎆',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: min(baseSize * 0.06, 36),
+                                fontWeight: FontWeight.bold,
+                                color: sunnyYellow,
+                                shadows: [
+                                  Shadow(color: sunnyYellow.withOpacity(0.9), blurRadius: 12),
+                                  Shadow(color: Colors.white.withOpacity(0.25), blurRadius: 4),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 18),
 
+                            // The "form" iframe area with internal padding so content doesn't touch the edges
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: kIsWeb
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: HtmlElementView(viewType: 'winner-iframe'),
+                                      )
+                                    : Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Open the winner form in your browser to claim.',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                          SizedBox(height: 12),
+                                          ElevatedButton(
+                                            onPressed: () async {
+                                              Uri url = Uri.parse('https://coindefense.space/winner/');
+                                              if (!await launchUrl(url)) {
+                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not open link')));
+                                              }
+                                            },
+                                            child: Text('Open Winner Page'),
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+
+                            SizedBox(height: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  onPressed: () => setState(() => isWinnerPopupActive = false),
+                                  child: Text('Close', style: TextStyle(color: Colors.white)),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }
