@@ -619,7 +619,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
                       opacity: slotOpacity,
                       duration: Duration(milliseconds: 300),
                       child: Container(
-                        width: min(screenWidth * 0.8, 500),
+                        width: min(screenWidth * 0.8, 600),
                         padding: EdgeInsets.all(baseSize * 0.05),
                         decoration: BoxDecoration(
                           color: Colors.black87,
@@ -693,7 +693,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
           if (isGameOver)
             Center(
               child: Container(
-                width: min(screenWidth * 0.8, 500),
+                width: min(screenWidth * 0.8, 600),
                 padding: EdgeInsets.all(baseSize * 0.05),
                 decoration: BoxDecoration(
                   color: Colors.black87,
@@ -782,7 +782,7 @@ class _TowerDefenseGameState extends State<TowerDefenseGame> {
                         child: Column(
                           children: [
                             Text(
-                              '🎆 Congratulations, you won! 🎆',
+                              'Congratulations, you won! 🎉',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: min(baseSize * 0.06, 36),
