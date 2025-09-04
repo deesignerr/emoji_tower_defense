@@ -36829,7 +36829,7 @@ B.b.J(a2,A.a6(new A.am(m,new A.a1w(a7,b0,b1,b2*0.1),e),!0,e.h("aw.E")))
 if(a7.ay){n=a7.cx?new A.a1x(a7):a8
 m=a7.cy
 l=A.c_(0,300,0)
-k=Math.min(b0*0.8,500)
+k=Math.min(b0*0.8,600)
 j=b2*0.05
 e=A.k6(16)
 s=A.a([new A.eC(6,B.c3,A.U(s,a,a0,b),B.f,30)],t.xq)
@@ -36840,7 +36840,7 @@ a6=A.a2(a5).h("am<1,cK>")
 a6=A.a([a3,a4,A.tw(A.a6(new A.am(a5,new A.a1y(a7,b2),a6),!0,a6.h("aw.E")),B.fJ,B.b5)],d)
 a3=a7.CW
 if(a3>0)B.b.J(a6,A.a([A.f_(a8,20,a8),A.db("+ "+a3+" coins!",A.cr(a8,a8,a9,a8,a8,a8,a8,a8,a8,a8,a8,Math.min(b2*0.06,50),a8,a8,B.a4,a8,a8,!0,a8,a8,a8,a8,a8,A.a([new A.c9(A.U(204,q,p,r),B.f,12)],o),a8,a8),a8)],d))
-a2.push(A.a5F(0,A.mK(B.bg,A.pp(A.mK(a8,new A.oX(A.kg(a8,A.yq(a6,B.d3,B.dF),a8,new A.dI(B.r,a8,a8,e,s,a8,B.ay),a8,a8,new A.aD(j,j,j,j),k),m,B.af,l,a8,a8),B.az,!1,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,new A.a1z(),a8,a8,a8),a8,a8),B.az,!1,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,n,a8,a8,a8)))}if(a7.z){a9=Math.min(b0*0.8,500)
+a2.push(A.a5F(0,A.mK(B.bg,A.pp(A.mK(a8,new A.oX(A.kg(a8,A.yq(a6,B.d3,B.dF),a8,new A.dI(B.r,a8,a8,e,s,a8,B.ay),a8,a8,new A.aD(j,j,j,j),k),m,B.af,l,a8,a8),B.az,!1,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,new A.a1z(),a8,a8,a8),a8,a8),B.az,!1,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,n,a8,a8,a8)))}if(a7.z){a9=Math.min(b0*0.8,600)
 s=b2*0.05
 r=A.k6(12)
 q=A.a([new A.eC(5,B.c3,A.U(153,a,a0,b),B.f,30)],t.xq)
@@ -36854,7 +36854,7 @@ r=Math.min(b1*0.85,720)
 q=Math.min(b2*0.04,24)
 p=A.k6(16)
 n=A.a([new A.eC(8,B.c3,A.U(89,g,f,h),B.f,40)],t.xq)
-o=A.db("\ud83c\udf86 Congratulations, you won! \ud83c\udf86",A.cr(a8,a8,i,a8,a8,a8,a8,a8,a8,a8,a8,Math.min(b2*0.06,36),a8,a8,B.a4,a8,a8,!0,a8,a8,a8,a8,a8,A.a([new A.c9(A.U(B.c.br(229.5),g,f,h),B.f,12),new A.c9(A.U(64,255,255,255),B.f,4)],o),a8,a8),B.cM)
+o=A.db("Congratulations, you won! \ud83c\udf89",A.cr(a8,a8,i,a8,a8,a8,a8,a8,a8,a8,a8,Math.min(b2*0.06,36),a8,a8,B.a4,a8,a8,!0,a8,a8,a8,a8,a8,A.a([new A.c9(A.U(B.c.br(229.5),g,f,h),B.f,12),new A.c9(A.U(64,255,255,255),B.f,4)],o),a8,a8),B.cM)
 h=A.f_(a8,18,a8)
 f=A.k6(12)
 a2.push(A.a5F(0,A.mK(B.bg,A.kg(a8,A.pp(A.mK(a8,A.kg(a8,A.yq(A.a([o,h,new A.zs(1,B.jg,A.kg(a8,new A.yh(A.k6(8),new A.zY("winner-iframe",a8),a8),a8,new A.dI(B.i,a8,a8,f,a8,a8,B.ay),a8,a8,new A.aD(12,12,12,12),a8),a8),A.f_(a8,12,a8),A.tw(A.a([A.a60(A.db("Close",A.cr(a8,a8,B.i,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,!0,a8,a8,a8,a8,a8,a8,a8,a8),a8),new A.a1A(a7),a8)],d),B.fI,B.b5)],d),B.d3,B.b5),a8,new A.dI(B.r,a8,a8,p,n,a8,B.ay),r,a8,new A.aD(q,q,q,q),s),B.az,!1,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,new A.a1B(),a8,a8,a8),a8,a8),a9,a8,a8,a8,a8,a8),B.az,!1,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,a8,new A.a1C(a7),a8,a8,a8)))}return new A.ty(A.Wp(B.eu,a2,B.hs),a7.id,a8)}}
