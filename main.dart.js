@@ -37005,14 +37005,14 @@ A.rq(s,!1).qY(null)
 return null},
 $S:0}
 A.a1w.prototype={
-$1(a){var s,r,q=this,p=null,o=a.b,n=q.c,m=n*0.15,l=n*0.1,k=q.d,j=B.c.ex(m+a.e*((n-m-l)/10),m,n-l-k)
+$1(a){var s,r,q=this,p=null,o=a.b,n=q.c-140,m=q.d,l=B.c.ex(140+a.e*((n-140)/10),140,n-m)
 n=a.d===B.da
 s=q.a
 r=s.dy
 r=n?r:[r,s.fr,s.fx,s.fy,s.go][s.d.eb(5)]
-if(n)k*=1.2
-if(a.f){k*=1.2
-r=B.Co}return A.rR(p,A.mK(p,A.kg(p,A.db(a.a,A.cr(p,p,r,p,p,p,p,p,p,p,p,k,p,p,p,p,p,!0,p,p,p,p,p,A.a([new A.c9(A.U(B.c.br(229.5),r.gn(r)>>>16&255,r.gn(r)>>>8&255,r.gn(r)&255),B.f,15)],t.j8),p,p),p),B.N,p,p,p,new A.aD(20,20,20,20),p),B.az,!1,p,p,p,p,p,p,p,p,p,p,p,p,p,p,new A.a1v(s,a),p,p,p),p,p,q.b*o,p,j,p)},
+if(n)m*=1.2
+if(a.f){m*=1.2
+r=B.Co}return A.rR(p,A.mK(p,A.kg(p,A.db(a.a,A.cr(p,p,r,p,p,p,p,p,p,p,p,m,p,p,p,p,p,!0,p,p,p,p,p,A.a([new A.c9(A.U(B.c.br(229.5),r.gn(r)>>>16&255,r.gn(r)>>>8&255,r.gn(r)&255),B.f,15)],t.j8),p,p),p),B.N,p,p,p,new A.aD(20,20,20,20),p),B.az,!1,p,p,p,p,p,p,p,p,p,p,p,p,p,p,new A.a1v(s,a),p,p,p),p,p,q.b*o,p,l,p)},
 $S:130}
 A.a1v.prototype={
 $0(){return this.a.Iw(this.b)},
